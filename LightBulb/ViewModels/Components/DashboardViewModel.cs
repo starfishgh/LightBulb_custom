@@ -108,7 +108,7 @@ public partial class DashboardViewModel : ViewModelBase
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsActive))]
     [NotifyPropertyChangedFor(nameof(StatusText))]
-    public partial bool IsEnabled { get; set; } = true;
+    public partial bool IsEnabled { get; set; } = !StartOptions.Current.IsInitiallyDisabled;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsActive))]
