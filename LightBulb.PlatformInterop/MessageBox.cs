@@ -15,4 +15,9 @@ public static class MessageBox
             );
         }
     }
+
+    public static void ShowInfo(string title, string message)
+    {
+        _ = NativeMethods.MessageBox(0, message, title, 0x40);
+    }
 }

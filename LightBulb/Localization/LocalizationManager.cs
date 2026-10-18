@@ -147,6 +147,8 @@ public partial class LocalizationManager
     public string TransitionDurationTooltip => Get();
     public string TransitionOffsetLabel => Get();
     public string TransitionOffsetTooltip => Get();
+    public string IdleInvokeTimeLabel => Get();
+    public string IdleBrightnessOffsetLabel => Get();
 
     // ---- Location settings tab ----
 
@@ -167,6 +169,10 @@ public partial class LocalizationManager
 
     public string ToggleLightBulbHotkeyLabel => Get();
     public string ToggleLightBulbHotkeyTooltip => Get();
+    public string EnableLightBulbHotkeyLabel => Get();
+    public string EnableLightBulbHotkeyTooltip => Get();
+    public string DisableLightBulbHotkeyLabel => Get();
+    public string DisableLightBulbHotkeyTooltip => Get();
     public string ToggleWindowLabel => Get();
     public string ToggleWindowHotkeyTooltip => Get();
     public string IncreaseTemperatureOffsetLabel => Get();

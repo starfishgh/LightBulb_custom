@@ -5,106 +5,134 @@
     xmlns:controls="clr-namespace:LightBulb.Views.Controls"
     xmlns:settings="clr-namespace:LightBulb.ViewModels.Components.Settings"
     x:DataType="settings:HotKeySettingsTabViewModel">
-    <StackPanel
+	<StackPanel
         Margin="16"
         Orientation="Vertical"
         Spacing="16">
-        <!--  Toggle hotkey  -->
-        <Grid ColumnDefinitions="*,Auto">
-            <TextBlock
+		<!--  Toggle hotkey  -->
+		<Grid ColumnDefinitions="*,Auto">
+			<TextBlock
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 Text="{Binding LocalizationManager.ToggleLightBulbHotkeyLabel}"
                 TextTrimming="CharacterEllipsis"
                 ToolTip.Tip="{Binding LocalizationManager.ToggleLightBulbHotkeyTooltip}" />
-            <controls:HotKeyTextBox
+			<controls:HotKeyTextBox
                 Grid.Column="1"
                 Width="120"
                 HotKey="{Binding ToggleHotKey}" />
-        </Grid>
+		</Grid>
 
-        <!--  Toggle window hotkey  -->
-        <Grid ColumnDefinitions="*,Auto">
-            <TextBlock
+		<!--  Enable LightBulb hotkey  -->
+		<Grid ColumnDefinitions="*,Auto">
+			<TextBlock
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="{Binding LocalizationManager.EnableLightBulbHotkeyLabel}"
+                TextTrimming="CharacterEllipsis"
+                ToolTip.Tip="{Binding LocalizationManager.EnableLightBulbHotkeyTooltip}" />
+			<controls:HotKeyTextBox
+                Grid.Column="1"
+                Width="120"
+                HotKey="{Binding EnableLightBulbHotKey}" />
+		</Grid>
+
+		<!--  Disable LightBulb hotkey  -->
+		<Grid ColumnDefinitions="*,Auto">
+			<TextBlock
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="{Binding LocalizationManager.DisableLightBulbHotkeyLabel}"
+                TextTrimming="CharacterEllipsis"
+                ToolTip.Tip="{Binding LocalizationManager.DisableLightBulbHotkeyTooltip}" />
+			<controls:HotKeyTextBox
+                Grid.Column="1"
+                Width="120"
+                HotKey="{Binding DisableLightBulbHotKey}" />
+		</Grid>
+
+		<!--  Toggle window hotkey  -->
+		<Grid ColumnDefinitions="*,Auto">
+			<TextBlock
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 Text="{Binding LocalizationManager.ToggleWindowLabel}"
                 TextTrimming="CharacterEllipsis"
                 ToolTip.Tip="{Binding LocalizationManager.ToggleWindowHotkeyTooltip}" />
-            <controls:HotKeyTextBox
+			<controls:HotKeyTextBox
                 Grid.Column="1"
                 Width="120"
                 HotKey="{Binding ToggleWindowHotKey}" />
-        </Grid>
+		</Grid>
 
-        <!--  Increase temperature offset hotkey  -->
-        <Grid ColumnDefinitions="*,Auto">
-            <TextBlock
+		<!--  Increase temperature offset hotkey  -->
+		<Grid ColumnDefinitions="*,Auto">
+			<TextBlock
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 Text="{Binding LocalizationManager.IncreaseTemperatureOffsetLabel}"
                 TextTrimming="CharacterEllipsis"
                 ToolTip.Tip="{Binding LocalizationManager.IncreaseTemperatureOffsetTooltip}" />
-            <controls:HotKeyTextBox
+			<controls:HotKeyTextBox
                 Grid.Column="1"
                 Width="120"
                 HotKey="{Binding IncreaseTemperatureOffsetHotKey}" />
-        </Grid>
+		</Grid>
 
-        <!--  Decrease temperature offset hotkey  -->
-        <Grid ColumnDefinitions="*,Auto">
-            <TextBlock
+		<!--  Decrease temperature offset hotkey  -->
+		<Grid ColumnDefinitions="*,Auto">
+			<TextBlock
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 Text="{Binding LocalizationManager.DecreaseTemperatureOffsetLabel}"
                 TextTrimming="CharacterEllipsis"
                 ToolTip.Tip="{Binding LocalizationManager.DecreaseTemperatureOffsetTooltip}" />
-            <controls:HotKeyTextBox
+			<controls:HotKeyTextBox
                 Grid.Column="1"
                 Width="120"
                 HotKey="{Binding DecreaseTemperatureOffsetHotKey}" />
-        </Grid>
+		</Grid>
 
-        <!--  Increase brightness offset hotkey  -->
-        <Grid ColumnDefinitions="*,Auto">
-            <TextBlock
+		<!--  Increase brightness offset hotkey  -->
+		<Grid ColumnDefinitions="*,Auto">
+			<TextBlock
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 Text="{Binding LocalizationManager.IncreaseBrightnessOffsetLabel}"
                 TextTrimming="CharacterEllipsis"
                 ToolTip.Tip="{Binding LocalizationManager.IncreaseBrightnessOffsetTooltip}" />
-            <controls:HotKeyTextBox
+			<controls:HotKeyTextBox
                 Grid.Column="1"
                 Width="120"
                 HotKey="{Binding IncreaseBrightnessOffsetHotKey}" />
-        </Grid>
+		</Grid>
 
-        <!--  Decrease brightness offset hotkey  -->
-        <Grid ColumnDefinitions="*,Auto">
-            <TextBlock
+		<!--  Decrease brightness offset hotkey  -->
+		<Grid ColumnDefinitions="*,Auto">
+			<TextBlock
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 Text="{Binding LocalizationManager.DecreaseBrightnessOffsetLabel}"
                 TextTrimming="CharacterEllipsis"
                 ToolTip.Tip="{Binding LocalizationManager.DecreaseBrightnessOffsetTooltip}" />
-            <controls:HotKeyTextBox
+			<controls:HotKeyTextBox
                 Grid.Column="1"
                 Width="120"
                 HotKey="{Binding DecreaseBrightnessOffsetHotKey}" />
-        </Grid>
+		</Grid>
 
-        <!--  Reset offset hotkey  -->
-        <Grid ColumnDefinitions="*,Auto">
-            <TextBlock
+		<!--  Reset offset hotkey  -->
+		<Grid ColumnDefinitions="*,Auto">
+			<TextBlock
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 Text="{Binding LocalizationManager.ResetOffsetLabel}"
                 TextTrimming="CharacterEllipsis"
                 ToolTip.Tip="{Binding LocalizationManager.ResetOffsetHotkeyTooltip}" />
-            <controls:HotKeyTextBox
+			<controls:HotKeyTextBox
                 Grid.Column="1"
                 Width="120"
                 HotKey="{Binding ResetConfigurationOffsetHotKey}" />
-        </Grid>
-    </StackPanel>
+		</Grid>
+	</StackPanel>
 </UserControl>

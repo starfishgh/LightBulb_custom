@@ -78,6 +78,8 @@ public partial class DashboardViewModel : ViewModelBase
             settingsService.WatchProperties(
                 [
                     o => o.ToggleHotKey,
+                    o => o.EnableLightBulbHotKey,
+                    o => o.DisableLightBulbHotKey,
                     o => o.ToggleWindowHotKey,
                     o => o.IncreaseTemperatureOffsetHotKey,
                     o => o.DecreaseTemperatureOffsetHotKey,
@@ -103,7 +105,19 @@ public partial class DashboardViewModel : ViewModelBase
         );
     }
 
+    public event Action? ManualControlRequested;
+
+    private void SetEnabledManually(bool enabled)
+    {
+        ManualControlRequested?.Invoke();
+        IsEnabled = enabled;
+    }
+
     public LocalizationManager LocalizationManager { get; }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TargetConfiguration))]
+    public partial bool IsIdleActivationActive { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsActive))]
@@ -215,7 +229,11 @@ public partial class DashboardViewModel : ViewModelBase
                     _settingsService.ConfigurationTransitionOffset,
                     Instant
                 )
-                .WithOffset(TemperatureOffset, BrightnessOffset)
+                .WithOffset(
+                    TemperatureOffset,
+                    BrightnessOffset
+                        + (IsIdleActivationActive ? _settingsService.IdleBrightnessOffset : 0)
+                )
                 .Clamp(
                     _settingsService.MinimumTemperature,
                     _settingsService.MaximumTemperature,
@@ -261,7 +279,23 @@ public partial class DashboardViewModel : ViewModelBase
         {
             _hotKeyService.RegisterHotKey(
                 _settingsService.ToggleHotKey,
-                () => IsEnabled = !IsEnabled
+                () => SetEnabledManually(!IsEnabled)
+            );
+        }
+
+        if (_settingsService.EnableLightBulbHotKey != HotKey.None)
+        {
+            _hotKeyService.RegisterHotKey(
+                _settingsService.EnableLightBulbHotKey,
+                () => SetEnabledManually(true)
+            );
+        }
+
+        if (_settingsService.DisableLightBulbHotKey != HotKey.None)
+        {
+            _hotKeyService.RegisterHotKey(
+                _settingsService.DisableLightBulbHotKey,
+                () => SetEnabledManually(false)
             );
         }
 
@@ -465,7 +499,7 @@ public partial class DashboardViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void Toggle() => IsEnabled = !IsEnabled;
+    private void Toggle() => SetEnabledManually(!IsEnabled);
 
     [RelayCommand]
     private void ResetConfigurationOffset()

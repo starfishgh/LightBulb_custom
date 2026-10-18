@@ -9,39 +9,53 @@ public class DialogManager : IDisposable
 {
     private readonly SemaphoreSlim _dialogLock = new(1, 1);
 
+    private int _dialogRequestCount;
+
+    public bool IsDialogOpen => Volatile.Read(ref _dialogRequestCount) > 0;
+
     public async Task<T?> ShowDialogAsync<T>(DialogViewModelBase<T> dialog)
     {
-        await _dialogLock.WaitAsync();
+        Interlocked.Increment(ref _dialogRequestCount);
+
         try
         {
-            await DialogHost.Show(
-                dialog,
-                // It's fine to await in a void method here because it's an event handler
-                // ReSharper disable once AsyncVoidLambda
-                async (object _, DialogOpenedEventArgs args) =>
-                {
-                    await dialog.WaitForCloseAsync();
+            await _dialogLock.WaitAsync();
 
-                    try
+            try
+            {
+                await DialogHost.Show(
+                    dialog,
+                    // It's fine to await in a void method here because it's an event handler
+                    // ReSharper disable once AsyncVoidLambda
+                    async (object _, DialogOpenedEventArgs args) =>
                     {
-                        args.Session.Close();
-                    }
-                    catch (InvalidOperationException)
-                    {
-                        // Dialog host is already processing a close operation
-                    }
-                }
-            );
+                        await dialog.WaitForCloseAsync();
 
-            // Yield to allow DialogHost to fully reset its state before
-            // another dialog is shown (e.g. when dialogs are shown sequentially)
-            await Task.Yield();
+                        try
+                        {
+                            args.Session.Close();
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            // Dialog host is already processing a close operation
+                        }
+                    }
+                );
 
-            return dialog.DialogResult;
+                // Yield to allow DialogHost to fully reset its state before
+                // another dialog is shown (e.g. when dialogs are shown sequentially)
+                await Task.Yield();
+
+                return dialog.DialogResult;
+            }
+            finally
+            {
+                _dialogLock.Release();
+            }
         }
         finally
         {
-            _dialogLock.Release();
+            Interlocked.Decrement(ref _dialogRequestCount);
         }
     }
 

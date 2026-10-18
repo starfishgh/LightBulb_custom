@@ -65,6 +65,12 @@ public partial class SettingsService()
     public partial double ConfigurationTransitionOffset { get; set; }
 
     [ObservableProperty]
+    public partial int IdleInvokeTimeMinutes { get; set; } = 5;
+
+    [ObservableProperty]
+    public partial double IdleBrightnessOffset { get; set; }
+
+    [ObservableProperty]
     public partial TimeSpan ConfigurationSmoothingMaxDuration { get; set; } =
         TimeSpan.FromSeconds(5);
 
@@ -123,6 +129,12 @@ public partial class SettingsService()
 
     [ObservableProperty]
     public partial HotKey ToggleHotKey { get; set; }
+
+    [ObservableProperty]
+    public partial HotKey EnableLightBulbHotKey { get; set; } = HotKey.None;
+
+    [ObservableProperty]
+    public partial HotKey DisableLightBulbHotKey { get; set; } = HotKey.None;
 
     [ObservableProperty]
     [JsonPropertyName("FocusWindowHotKey")]

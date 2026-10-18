@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading;
 using Avalonia;
 using LightBulb.PlatformInterop;
+using LightBulb.Services;
 
 namespace LightBulb;
 
@@ -48,6 +49,27 @@ public static class Program
     [STAThread]
     public static int Main(string[] args)
     {
+        // Diagnostic mode runs independently of the normal single-instance check.
+        // It reports Windows state without changing LightBulb's enabled state.
+        foreach (var argument in args)
+        {
+            if (
+                !string.Equals(
+                    argument,
+                    InvocationPreventionChecker.DiagnosticArgument,
+                    StringComparison.OrdinalIgnoreCase
+                )
+            )
+                continue;
+
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+
+            var report = InvocationPreventionChecker.CreateDiagnosticReport();
+
+            MessageBox.ShowInfo("LightBulb - Invocation Prevention", report);
+            return 0;
+        }
+
         // Ensure only one instance of the app is running at a time
         using var identityMutex = new Mutex(
             true,

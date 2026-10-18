@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -28,6 +30,10 @@ public partial class App : Application, IDisposable
     private readonly MainViewModel _mainViewModel;
 
     private readonly IDisposable _eventSubscription;
+
+    private WindowsLifecycleMonitor? _windowsLifecycleMonitor;
+    private IdleInvocationController? _idleInvocationController;
+
     private bool _isDisposed;
 
     public App()
@@ -120,6 +126,9 @@ public partial class App : Application, IDisposable
             // https://github.com/Tyrrrz/YoutubeDownloader/issues/795
             desktop.Exit += (_, _) => Dispose();
 
+            // Initialize the theme even when starting hidden.
+            InitializeTheme();
+
             if (!StartOptions.Current.IsInitiallyHidden)
             {
                 // Show the main window on startup
@@ -130,10 +139,50 @@ public partial class App : Application, IDisposable
                 // When starting hidden, initialize the backend without showing the UI
                 _ = _mainViewModel.Dashboard.InitializeAsync();
             }
+
+            InitializeIdleInvocationController();
         }
 
         base.OnFrameworkInitializationCompleted();
     }
+
+    private void InitializeIdleInvocationController()
+    {
+        var lifecycleMonitor = new WindowsLifecycleMonitor();
+        var dialogManager = _services.GetRequiredService<DialogManager>();
+
+        _windowsLifecycleMonitor = lifecycleMonitor;
+
+        _idleInvocationController = new IdleInvocationController(
+            _settingsService,
+            _services.GetRequiredService<ExternalApplicationService>(),
+            lifecycleMonitor,
+            () => _mainViewModel.Dashboard.IsEnabled,
+            enabled => _mainViewModel.Dashboard.IsEnabled = enabled,
+            () => dialogManager.IsDialogOpen,
+            active => _mainViewModel.Dashboard.IsIdleActivationActive = active
+        );
+
+        _mainViewModel.Dashboard.PropertyChanged += DashboardOnPropertyChanged;
+        _mainViewModel.Dashboard.ManualControlRequested += DashboardOnManualControlRequested;
+
+        if (!_idleInvocationController.Start())
+        {
+            Debug.WriteLine(
+                "Idle invocation controller did not start because the required "
+                    + "Windows lifecycle notifications are unavailable."
+            );
+        }
+    }
+
+    private void DashboardOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(DashboardViewModel.IsEnabled))
+            _idleInvocationController?.NotifyManualControl();
+    }
+
+    private void DashboardOnManualControlRequested() =>
+        _idleInvocationController?.NotifyManualControl();
 
     internal Window? ShowMainWindow()
     {
@@ -215,6 +264,13 @@ public partial class App : Application, IDisposable
             return;
 
         _isDisposed = true;
+
+        _mainViewModel.Dashboard.PropertyChanged -= DashboardOnPropertyChanged;
+        _mainViewModel.Dashboard.ManualControlRequested -= DashboardOnManualControlRequested;
+
+        // Dispose the controller before its lifecycle monitor.
+        _idleInvocationController?.Dispose();
+        _windowsLifecycleMonitor?.Dispose();
 
         _eventSubscription.Dispose();
         _services.Dispose();

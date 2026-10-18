@@ -86,6 +86,8 @@ public partial class LocalizationManager
             [nameof(TransitionOffsetLabel)] = "Transition offset:",
             [nameof(TransitionOffsetTooltip)] =
                 "Offset that specifies how early or late the transition starts, relative to the sunrise and sunset",
+            [nameof(IdleInvokeTimeLabel)] = "Idle activate (0 = off)",
+            [nameof(IdleBrightnessOffsetLabel)] = "Idle brightness offset",
             // Location settings tab
             [nameof(SolarConfigLabel)] = "Solar configuration:",
             [nameof(ManualLabel)] = "Manual",
@@ -112,6 +114,10 @@ public partial class LocalizationManager
             // Hot key settings tab
             [nameof(ToggleLightBulbHotkeyLabel)] = "Toggle LightBulb",
             [nameof(ToggleLightBulbHotkeyTooltip)] = "Global hotkey to toggle LightBulb on/off",
+            [nameof(EnableLightBulbHotkeyLabel)] = "Enable LightBulb",
+            [nameof(EnableLightBulbHotkeyTooltip)] = "Global hotkey to enable LightBulb",
+            [nameof(DisableLightBulbHotkeyLabel)] = "Disable LightBulb",
+            [nameof(DisableLightBulbHotkeyTooltip)] = "Global hotkey to disable LightBulb",
             [nameof(ToggleWindowLabel)] = "Toggle window",
             [nameof(ToggleWindowHotkeyTooltip)] =
                 "Global hotkey to show/hide LightBulb's main window",

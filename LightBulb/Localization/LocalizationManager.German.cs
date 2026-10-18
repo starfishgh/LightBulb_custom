@@ -81,6 +81,8 @@ public partial class LocalizationManager
         [nameof(TransitionOffsetLabel)] = "Übergangsversatz:",
         [nameof(TransitionOffsetTooltip)] =
             "Versatz, der angibt, wie früh oder spät der Übergang relativ zu Sonnenaufgang und Sonnenuntergang beginnt",
+        [nameof(IdleInvokeTimeLabel)] = "Leerlauf-Aktivierung (0 = aus)",
+        [nameof(IdleBrightnessOffsetLabel)] = "Leerlauf-Helligkeitsversatz",
         [nameof(SolarConfigLabel)] = "Solarkonfiguration:",
         [nameof(ManualLabel)] = "Manuell",
         [nameof(ManualTooltip)] = "Sonnenaufgang und Sonnenuntergang manuell konfigurieren",
@@ -106,6 +108,12 @@ public partial class LocalizationManager
         [nameof(ToggleLightBulbHotkeyLabel)] = "LightBulb umschalten",
         [nameof(ToggleLightBulbHotkeyTooltip)] =
             "Globale Tastenkombination zum Ein-/Ausschalten von LightBulb",
+        [nameof(EnableLightBulbHotkeyLabel)] = "LightBulb einschalten",
+        [nameof(EnableLightBulbHotkeyTooltip)] =
+            "Globale Tastenkombination zum Einschalten von LightBulb",
+        [nameof(DisableLightBulbHotkeyLabel)] = "LightBulb ausschalten",
+        [nameof(DisableLightBulbHotkeyTooltip)] =
+            "Globale Tastenkombination zum Ausschalten von LightBulb",
         [nameof(ToggleWindowLabel)] = "Fenster umschalten",
         [nameof(ToggleWindowHotkeyTooltip)] =
             "Globale Tastenkombination zum Anzeigen/Ausblenden des LightBulb-Fensters",

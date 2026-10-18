@@ -17,6 +17,18 @@ public class HotKeySettingsTabViewModel(
         set => SettingsService.ToggleHotKey = value;
     }
 
+    public HotKey EnableLightBulbHotKey
+    {
+        get => SettingsService.EnableLightBulbHotKey;
+        set => SettingsService.EnableLightBulbHotKey = value;
+    }
+
+    public HotKey DisableLightBulbHotKey
+    {
+        get => SettingsService.DisableLightBulbHotKey;
+        set => SettingsService.DisableLightBulbHotKey = value;
+    }
+
     public HotKey ToggleWindowHotKey
     {
         get => SettingsService.ToggleWindowHotKey;

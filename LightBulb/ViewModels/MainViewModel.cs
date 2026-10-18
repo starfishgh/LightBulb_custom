@@ -170,8 +170,6 @@ public partial class MainViewModel(
 
         await FinalizePendingUpdateAsync();
 
-        await ShowUkraineSupportMessageAsync();
-        await ShowDevelopmentBuildMessageAsync();
         await ShowGammaRangeMessageAsync();
         await ShowFirstTimeExperienceMessageAsync();
 
